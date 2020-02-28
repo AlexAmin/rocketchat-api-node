@@ -139,4 +139,15 @@ describe("users", function () {
             });
         });
     });
+
+    describe("list users", function () {
+        it("list users", function (done) {
+            rocketChatClient.users.list(0, 2, "", function (err, result) {
+                should(err).be.null();
+                should(result).not.be.null();
+                should(result.success).be.true();
+                done();
+            });
+        });
+    });
 });
