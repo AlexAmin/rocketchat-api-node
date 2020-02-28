@@ -8,13 +8,15 @@ const config = require("./config.json");
 describe("channels", function () {
 
     let rocketChatClient = null;
-    before(function (done) {
-        rocketChatClient = new RocketChatClient("http",
+    beforeEach(function (done) {
+        rocketChatClient = new RocketChatClient(
+            "http",
             config.host,
             config.port,
             config.user,
             config.password,
-            done);
+            done
+        );
     });
 
     let userToAdd = {
@@ -150,7 +152,13 @@ describe("channels", function () {
             return co(function *() {
                 // add all user into the added channel
                 let addedResult = yield rocketChatClient.channels.addAll(addedRoomId);
-                addedResult.channel.usernames.should.containEql(userToAdd.username);
+                addedResult.success.should.equal(true);
+                //Must retrieve members list from another endpoint
+                const channelMembers = yield rocketChatClient.channels.membersList(null, addedResult.channel._id);
+                //Filter elements in array, only return the user we are searching
+                const reduce = channelMembers.members.filter((element)=>{return element.username === userToAdd.username;});
+                //Confirm there is one result
+                should(reduce).be.lengthOf(1);
             }).catch((err) => {
                 should(err).be.null();
             });
@@ -198,7 +206,12 @@ describe("channels", function () {
                 // invite user into the room
                 let invitedResult = yield rocketChatClient.channels.invite(addedRoomId, addedUserId);
                 invitedResult.success.should.equal(true);
-                invitedResult.channel.usernames.should.containEql(userToAdd.username);
+                //Must retrieve members list from another endpoint
+                const channelMembers = yield rocketChatClient.channels.membersList(null, invitedResult.channel._id);
+                //Filter elements in array, only return the user we are searching
+                const reduce = channelMembers.members.filter((element)=>{return element.username === userToAdd.username;});
+                //Confirm there is one result
+                should(reduce).be.lengthOf(1);
             });
         });
 

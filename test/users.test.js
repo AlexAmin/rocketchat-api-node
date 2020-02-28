@@ -7,12 +7,14 @@ describe("users", function () {
 
     let rocketChatClient = null;
     before(function (done) {
-        rocketChatClient = new RocketChatClient("http",
+        rocketChatClient = new RocketChatClient(
+            "http",
             config.host,
             config.port,
             config.user,
             config.password,
-            done);
+            done
+        );
     });
     let userToAdd = {
         "name": "name",
