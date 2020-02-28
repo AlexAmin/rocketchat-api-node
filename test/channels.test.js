@@ -220,12 +220,22 @@ describe("channels", function () {
                 // invite user into the room
                 let invitedResult = yield rocketChatClient.channels.invite(addedRoomId, addedUserId);
                 invitedResult.success.should.equal(true);
-                invitedResult.channel.usernames.should.containEql(userToAdd.username);
+                //Retrieve list of users in channel
+                const channelMembers = yield rocketChatClient.channels.membersList(null, invitedResult.channel._id);
+                //Filter elements in array, only return the user we are searching
+                const reduce = channelMembers.members.filter((element)=>{return element.username === userToAdd.username;});
+                //Confirm there is one result
+                should(reduce).be.lengthOf(1);
 
                 // kick the user out
                 let kickedResult = yield rocketChatClient.channels.kick(addedRoomId, addedUserId);
                 kickedResult.success.should.equal(true);
-                kickedResult.channel.usernames.should.not.containEql(userToAdd.username);
+                //Retrieve list of users in channel
+                const channelMembersAfterKick = yield rocketChatClient.channels.membersList(null, invitedResult.channel._id);
+                //Filter elements in array, only return the user we are searching
+                const reduceAfterKick = channelMembersAfterKick.members.filter((element)=>{return element.username === userToAdd.username;});
+                //Confirm there are NO results result
+                should(reduceAfterKick).be.lengthOf(0);
             });
         });
 
@@ -234,15 +244,15 @@ describe("channels", function () {
                 // gusnips is the only owner of the channel, so need to set new owner before leaving the room
                 // add user into the room
                 let addedResult = yield rocketChatClient.channels.invite(addedRoomId, addedUserId);
-                addedResult.success.should.equal(true);
+                should(addedResult.success).equal(true);
 
                 // add the user as owner
                 let addOwnerResult = yield rocketChatClient.channels.addOwner(addedRoomId, addedUserId);
-                addOwnerResult.success.should.equal(true);
+                should(addOwnerResult.success).equal(true);
 
                 let leaveResult = yield rocketChatClient.channels.leave(addedRoomId);
                 leaveResult.success.should.equal(true);
-                leaveResult.channel.usernames.should.not.containEql(config.user);
+                should(leaveResult.channel.usernames).not.containEql(config.user);
 
                 // gusnips have already leave the room, can not remove the user and room
                 addedUserId = null;
@@ -311,6 +321,9 @@ describe("channels", function () {
             });
         });
 
+        /*
+        Endpoint does not exist (Not the same as room.cleanhistory https://rocket.chat/docs/developer-guides/rest-api/rooms/cleanhistory/#rooms-clean-history)
+        28.02.2020
         it("Cleans up a channel, removing messages from the provided time range. the messages should be empty", () => {
             return co(function *() {
                 // send 10 messages
@@ -331,15 +344,16 @@ describe("channels", function () {
 
                 // clean the messages
                 let lastDate = new Date();
-                lastDate.setDate(lastDate.getDate() - 1);
-                let cleanResult = yield rocketChatClient.channels.cleanHistory(addedRoomId, Date.now(), lastDate);
-                cleanResult.success.should.equal(true);
+                lastDate = new Date(lastDate.getTime() - 60000);
+                let cleanResult = yield rocketChatClient.channels.cleanHistory(addedRoomId, new Date(), lastDate);
+                should(cleanResult).equal(true);
 
                 // get the messages from the channel
                 history = yield rocketChatClient.channels.history({roomId: addedRoomId});
-                history.messages.length.should.equal(0);
+                should(history.messages.length).equal(0);
             });
         });
+         */
 
         it("Retrieves the integrations which the channel has, the result should be successful", () => {
             return co(function *() {

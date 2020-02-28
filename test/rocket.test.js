@@ -29,12 +29,14 @@ describe("Test the rest api and rocketchat version version", function () {
 
 describe("test login and logout", function () {
     var rocketChatApi = null;
-    before(function () {
-        rocketChatApi = new RocketChatApi("http", config.host, config.port);
+    beforeEach(function (done) {
+        rocketChatApi = new RocketChatClient("http", config.host, config.port, config.user, config.password, (err) => {
+            should(err).be.null();
+            done();
+        });
     });
 
     it("logout status should be success and the token should be null", function (done) {
-        this.timeout(15000);
         rocketChatApi.login(config.user, config.password, function (err, body) {
             should(err).be.null();
             should(body).not.be.null();

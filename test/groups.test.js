@@ -22,7 +22,7 @@ let userToAdd = {
 
 describe("groups", () => {
     let rocketChatClient = null;
-    before( (done) => {
+    beforeEach((done) => {
         rocketChatClient = new RocketChatClient("http",
             config.host,
             config.port,
@@ -155,7 +155,12 @@ describe("groups", () => {
                 let inviteResult = yield rocketChatClient.groups.invite(createGroupId, createdUserId);
                 inviteResult.success.should.equal(true);
 
-                inviteResult.group.usernames.should.matchAny(new RegExp(`^${userToAdd.username}`));
+                //Must retrieve members list from another endpoint
+                const groupMembers = yield rocketChatClient.groups.membersList(null, inviteResult.group._id);
+                //Filter elements in array, only return the user we are searching
+                const reduce = groupMembers.members.filter((element)=>{return element.username === userToAdd.username;});
+                //Confirm there is one result
+                should(reduce).be.lengthOf(1);
             });
         });
 
@@ -169,7 +174,13 @@ describe("groups", () => {
                 // kick the user
                 let kickedResult = yield rocketChatClient.groups.kick(createGroupId, createdUserId);
                 kickedResult.success.should.equal(true);
-                //kickedResult.group.usernames.should.not.matchAny(new RegExp(`^${userToAdd.username}`));
+
+                //Must retrieve members list from another endpoint
+                const groupMembers = yield rocketChatClient.groups.membersList(null, inviteResult.group._id);
+                //Filter elements in array, only return the user we are searching
+                const reduce = groupMembers.members.filter((element)=>{return element.username === userToAdd.username;});
+                //Confirm there are NO results
+                should(reduce).be.lengthOf(0);
             });
         });
 
