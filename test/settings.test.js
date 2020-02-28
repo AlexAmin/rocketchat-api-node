@@ -1,15 +1,13 @@
 /**
  * Created by qeesung on 2017/4/26.
  */
+
 const RocketChatClient = require("../lib/rocketChat").RocketChatClient;
 const co = require("co");
+const chai = require("chai");
+const expect = chai.expect;
 
-const config = {
-    host: "127.0.0.1",
-    port: "3000",
-    user: "gusnips",
-    password: "123456"
-};
+const config = require("./config.json");
 
 describe("setttings", () => {
     let rocketChatClient = null;
@@ -26,14 +24,14 @@ describe("setttings", () => {
     it(`get ${id} configurations values should be false or true`, () => {
         return co(function *() {
             let livechatEnabledValue = yield rocketChatClient.settings.get(id);
-            livechatEnabledValue.value.should.be.oneOf([true, false]);
+            expect(livechatEnabledValue.value).to.be.oneOf([true, false]);
         });
     });
 
     it(`update ${id} the configurations to be true`, () => {
         return co(function *() {
             let updatedResult = yield rocketChatClient.settings.update(id, true);
-            updatedResult.success.should.equal(true);
+            expect(updatedResult.success).to.be.equal(true);
         });
     });
 });

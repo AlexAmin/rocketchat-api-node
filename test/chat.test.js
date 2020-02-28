@@ -2,12 +2,7 @@ const RocketChatClient = require("../lib/rocketChat").RocketChatClient;
 const should = require("should");
 const co = require("co");
 
-const config = {
-    host: "127.0.0.1",
-    port: "3000",
-    user: "gusnips",
-    password: "123456"
-};
+const config = require("./config.json");
 
 describe("chat", function () {
     let rocketChatClient = null;

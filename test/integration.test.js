@@ -2,12 +2,7 @@ const RocketChatClient = require("../lib/rocketChat").RocketChatClient;
 const should = require("should");
 const co = require("co");
 
-const config = {
-    host: "127.0.0.1",
-    port: "3000",
-    user: "gusnips",
-    password: "123456"
-};
+const config = require("./config.json");
 
 describe("integration", function () {
     let rocketChatClient = null;
@@ -23,15 +18,15 @@ describe("integration", function () {
     describe("create - list - remove", function () {
         let integrationId = null;
 
-        let testIntegration = { 
-            "type": "webhook-outgoing", 
-            "name": "Testing via REST API", 
-            "enabled": false, 
-            "username": config.user, 
-            "urls": ["http://some-url.example.com"], 
+        let testIntegration = {
+            "type": "webhook-outgoing",
+            "name": "Testing via REST API",
+            "enabled": false,
+            "username": config.user,
+            "urls": ["http://some-url.example.com"],
             "scriptEnabled": false,
             "channel" : "all_public_channels",
-            "event" : "sendMessage" 
+            "event" : "sendMessage"
         };
 
         it("should be able to create a new integration", () => {
@@ -49,10 +44,10 @@ describe("integration", function () {
 
         it("should be able list the integration, finding the one we created", () => {
             return co(function* () {
-                let result = yield rocketChatClient.integration.list({ 
-                    offset : 0, 
-                    count : 5, 
-                    sort : { "_createdAt" : -1 }, 
+                let result = yield rocketChatClient.integration.list({
+                    offset : 0,
+                    count : 5,
+                    sort : { "_createdAt" : -1 },
                     fields : { "_id" : 1 }
                 });
                 should(result).not.be.null();
@@ -65,9 +60,9 @@ describe("integration", function () {
 
         it("should be able to remove our integration", () => {
             return co(function* () {
-                let result = yield rocketChatClient.integration.remove({ 
-                    type : testIntegration.type, 
-                    integrationId : integrationId 
+                let result = yield rocketChatClient.integration.remove({
+                    type : testIntegration.type,
+                    integrationId : integrationId
                 });
                 should(result).not.be.null();
                 should(result.success).be.true();

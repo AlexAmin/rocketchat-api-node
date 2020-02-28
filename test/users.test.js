@@ -1,12 +1,7 @@
 const RocketChatClient = require("../lib/rocketChat").RocketChatClient;
 const should = require("should");
 
-const config = {
-    host: "127.0.0.1",
-    port: "3000",
-    user: "gusnips",
-    password: "123456"
-};
+const config = require("./config.json");
 
 describe("users", function () {
 
@@ -20,11 +15,11 @@ describe("users", function () {
             done);
     });
     let userToAdd = {
-        "name": "name", 
-        "email": "email@example.com", 
-        "password": "anypassyouwant", 
-        "username": "uniqueusername", 
-        "sendWelcomeEmail": false, 
+        "name": "name",
+        "email": "email@example.com",
+        "password": "anypassyouwant",
+        "username": "uniqueusername",
+        "sendWelcomeEmail": false,
         "joinDefaultChannels": false,
         "verified":false,
         "requirePasswordChange":false,

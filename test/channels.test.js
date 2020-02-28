@@ -3,12 +3,7 @@ const should = require("should");
 const async = require("async");
 const co = require("co");
 
-const config = {
-    host: "127.0.0.1",
-    port: "3000",
-    user: "gusnips",
-    password: "123456"
-};
+const config = require("./config.json");
 
 describe("channels", function () {
 

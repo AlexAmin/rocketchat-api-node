@@ -1,15 +1,10 @@
 var net = require("../lib/net");
 var should = require("should");
 
-var config = {
-    protocol: {
-        rest: "http",
-        ws: "ws"
-    },
-    host: "127.0.0.1",
-    port: "3000",
-    user: "gusnips",
-    password: "123456"
+const config = require("./config.json");
+config.protocol = {
+    rest: "http",
+    ws: "ws"
 };
 
 describe("WsClient", function () {

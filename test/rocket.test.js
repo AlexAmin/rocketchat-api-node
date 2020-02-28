@@ -6,19 +6,14 @@
  * description : test the rocketchat api base on mocha and shouldjs
  */
 
-var RocketChatApi = require("../lib/rocket-chat").RocketChatApi;
+var RocketChatClient = require("../lib/rocketChat").RocketChatClient;
 var should = require("should");
 
-var config = {
-    host: "127.0.0.1", // this is my personal rocketchat server hosted in my laptop
-    port: "3000",
-    user: "gusnips",
-    password: "123456"
-};
+const config = require("./config.json");
 
 describe("Test the rest api and rocketchat version version", function () {
     it("rest api version should not be below 0.1 and rocketchat should not be beblow 0.5", function (done) {
-        var rocketChatApi = new RocketChatApi("http", config.host, config.port, config.user, config.password, function (err) {
+        var rocketChatApi = new RocketChatClient("http", config.host, config.port, config.user, config.password, function (err) {
             if (err) throw err;
             rocketChatApi.version(function (err, body) {
                 should(err).be.null();
