@@ -1,5 +1,5 @@
 {
-  "name": "rocketchat-api",
+  "name": "rocketchat-api-node",
   "version": "1.0.4",
   "description": "Rocket chat node api",
   "main": "./index.js",
