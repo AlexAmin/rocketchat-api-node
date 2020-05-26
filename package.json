@@ -24,13 +24,10 @@
   },
   "homepage": "https://github.com/gusnips/rocketchat-api-node.git#readme",
   "dependencies": {
-    "bluebird": "^3.5.0",
     "bufferutil": "^4.0.1",
     "co": "^4.6.0",
-    "ddp.js": "^2.2.0",
     "https-proxy-agent": "^5.0.0",
     "node-fetch": "^2.6.0",
-    "request": "^2.72.0",
     "url": "^0.11.0",
     "utf-8-validate": "^5.0.2",
     "ws": "^7.2.1"
