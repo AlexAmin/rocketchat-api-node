@@ -15,8 +15,15 @@ describe("channels", function () {
             config.port,
             config.user,
             config.password,
-            done
+            done,
+            false,
+            {timeout: 9999}
         );
+        rocketChatClient.login(
+            config.user,
+            config.password,
+            done
+        )
     });
 
     let userToAdd = {
