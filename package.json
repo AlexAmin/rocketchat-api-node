@@ -1,5 +1,5 @@
 {
-  "name": "rocketchat-api-node",
+  "name": "rocketchat-client-node",
   "version": "1.0.4",
   "description": "Rocket chat node api",
   "main": "./index.js",
@@ -14,6 +14,9 @@
   "keywords": [
     "rocket-chat"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "author": "gusnips",
   "license": "ISC",
   "bugs": {
@@ -26,6 +29,7 @@
     "co": "^4.6.0",
     "ddp.js": "^2.2.0",
     "https-proxy-agent": "^5.0.0",
+    "node-fetch": "^2.6.0",
     "request": "^2.72.0",
     "url": "^0.11.0",
     "utf-8-validate": "^5.0.2",

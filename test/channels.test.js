@@ -37,7 +37,7 @@ describe("channels", function () {
             let creates = [];
             for (let i = 0; i < 10; i++) {
                 creates.push(function (callback) {
-                    rocketChatClient.channels.create("channel-name-" + Date.now(), function (err, body) {
+                    rocketChatClient.channels.create("channel-name-" + Date.now(), null, false,function (err, body) {
                         should(err).be.null();
                         should(body.success).be.true();
                         callback();
