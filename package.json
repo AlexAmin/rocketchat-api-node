@@ -1,6 +1,6 @@
 {
   "name": "rocketchat-client-node",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Rocket chat node api",
   "main": "./index.js",
   "scripts": {
